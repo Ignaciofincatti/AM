@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Liga" table="liga" catalog="ligaam" optimistic-lock="version">
+        <id name="idLiga" type="java.lang.Integer">
+            <column name="idLiga" />
+            <generator class="identity" />
+        </id>
+        <property name="ligaNom" type="string">
+            <column name="LigaNom" length="45" />
+        </property>
+        <property name="ligaEstado" type="java.lang.Integer">
+            <column name="ligaEstado" />
+        </property>
+        <set name="ligaEquipos" table="liga_equipo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idLiga" />
+            </key>
+            <one-to-many class="pojos.LigaEquipo" />
+        </set>
+        <set name="ligaCates" table="liga_cate" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idLiga" />
+            </key>
+            <one-to-many class="pojos.LigaCate" />
+        </set>
+        <set name="clasificacioneses" table="clasificaciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idLiga" />
+            </key>
+            <one-to-many class="pojos.Clasificaciones" />
+        </set>
+        <set name="torneoses" table="torneos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idLiga" />
+            </key>
+            <one-to-many class="pojos.Torneos" />
+        </set>
+        <set name="usuarioses" table="usuarios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idliga" />
+            </key>
+            <one-to-many class="pojos.Usuarios" />
+        </set>
+    </class>
+</hibernate-mapping>

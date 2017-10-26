@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Equipos" table="equipos" catalog="ligaam" optimistic-lock="version">
+        <id name="idEquipos" type="java.lang.Integer">
+            <column name="idEquipos" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="categorias" class="pojos.Categorias" fetch="select">
+            <column name="idCategoria" />
+        </many-to-one>
+        <many-to-one name="zonas" class="pojos.Zonas" fetch="select">
+            <column name="idZona" />
+        </many-to-one>
+        <property name="equipoNombre" type="string">
+            <column name="EquipoNombre" length="45" />
+        </property>
+        <property name="equipoLogo" type="string">
+            <column name="EquipoLogo" length="45" />
+        </property>
+        <property name="equipoestado" type="java.lang.Integer">
+            <column name="equipoestado" />
+        </property>
+        <set name="ligaEquipos" table="liga_equipo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEquipo" />
+            </key>
+            <one-to-many class="pojos.LigaEquipo" />
+        </set>
+        <set name="jugadoresEquiposes" table="jugadores_equipos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEquipo" not-null="true" />
+            </key>
+            <one-to-many class="pojos.JugadoresEquipos" />
+        </set>
+        <set name="clasificacioneses" table="clasificaciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEquipo" />
+            </key>
+            <one-to-many class="pojos.Clasificaciones" />
+        </set>
+        <set name="partidosesForPequipoUno" table="partidos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pEquipoUno" />
+            </key>
+            <one-to-many class="pojos.Partidos" />
+        </set>
+        <set name="partidosesForPequipoDos" table="partidos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pEquipoDos" />
+            </key>
+            <one-to-many class="pojos.Partidos" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Usuarios" table="usuarios" catalog="ligaam" optimistic-lock="version">
+        <id name="usuCodigo" type="java.lang.Integer">
+            <column name="usu_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="liga" class="pojos.Liga" fetch="select">
+            <column name="idliga" />
+        </many-to-one>
+        <property name="usuNombre" type="string">
+            <column name="usu_nombre" length="25" />
+        </property>
+        <property name="usuApellido" type="string">
+            <column name="usu_apellido" length="25" />
+        </property>
+        <property name="usuLogin" type="string">
+            <column name="usu_login" length="25" unique="true" />
+        </property>
+        <property name="usuPassword" type="string">
+            <column name="usu_password" length="25" />
+        </property>
+        <set name="usuRols" table="usu_rol" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usr_usuario" not-null="true" />
+            </key>
+            <one-to-many class="pojos.UsuRol" />
+        </set>
+    </class>
+</hibernate-mapping>

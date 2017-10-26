@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.CategoriasTorneos" table="categorias_torneos" catalog="ligaam" optimistic-lock="version">
+        <id name="idcategoriasTorneos" type="java.lang.Integer">
+            <column name="idcategorias_torneos" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="categorias" class="pojos.Categorias" fetch="select">
+            <column name="idCategorias" />
+        </many-to-one>
+        <many-to-one name="torneos" class="pojos.Torneos" fetch="select">
+            <column name="idTorneos" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

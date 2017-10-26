@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Jugadores" table="jugadores" catalog="ligaam" optimistic-lock="version">
+        <id name="idJugadores" type="java.lang.Integer">
+            <column name="idJugadores" />
+            <generator class="identity" />
+        </id>
+        <property name="jugadorNumSocio" type="string">
+            <column name="JugadorNumSocio" length="30" />
+        </property>
+        <property name="jugadorDni" type="string">
+            <column name="JugadorDni" length="10" />
+        </property>
+        <property name="jugadorApellido" type="string">
+            <column name="JugadorApellido" length="45" />
+        </property>
+        <property name="jugadorNombre" type="string">
+            <column name="JugadorNombre" length="45" />
+        </property>
+        <property name="jugadoresFoto" type="string">
+            <column name="jugadoresFoto" length="45" />
+        </property>
+        <property name="jugadoresEstado" type="java.lang.Integer">
+            <column name="jugadoresEstado" />
+        </property>
+        <set name="jugadoresEquiposes" table="jugadores_equipos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idJugador" not-null="true" />
+            </key>
+            <one-to-many class="pojos.JugadoresEquipos" />
+        </set>
+        <set name="goleadoreses" table="goleadores" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idJugador" />
+            </key>
+            <one-to-many class="pojos.Goleadores" />
+        </set>
+        <set name="amonestadoses" table="amonestados" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dniJugador" />
+            </key>
+            <one-to-many class="pojos.Amonestados" />
+        </set>
+    </class>
+</hibernate-mapping>

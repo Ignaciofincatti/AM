@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:body>
+
+        <ui:composition template="./../resources/Template.xhtml">
+
+            <ui:define name="content">
+                <script type="text/javascript">
+                    function validar(e) {
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        if (tecla==8) return true;
+                        patron =/[A-Za-z\s]/;
+                        te = String.fromCharCode(tecla);
+                        return patron.test(te);
+                    }
+                
+                    function validarNum(e){
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        //Tecla de retroceso para borrar, siempre la permite
+                        if (tecla==8){
+                            return true;
+                        }
+                        // Patron de entrada, en este caso solo acepta numeros
+                        patron =/[0-9]/;
+                        tecla_final = String.fromCharCode(tecla);
+                        
+                        
+                        return patron.test(tecla_final);
+                    }
+                    
+                </script>
+                
+                
+                <br></br>
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Buscar Equipos
+                        </div>
+                        <div class="panel-body">
+                            <h:form role="form">
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="name" value="Nombre"/>
+                                            <h:inputText value="#{equipoBeanS.equipoA.equipoNombre}" id="name" required="true" label="Nombre" maxlength="8" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h:commandButton action="#{equipoBeanS.buscar()}" class="btn btn-primary" id="altaButton" value="Buscar" />
+                                        <h:messages id="msgs"/>
+                                    </div>
+
+
+                                </div><br></br>
+
+                                <div class="panel panel-default" jsf:rendered="#{equipoBeanS.renderList}">
+                                    <div class="panel-heading" >
+                                        Equipos con nombres similares
+                                    </div>
+                                    
+                                    <div class="panel-body " >
+                                        <div class="table-responsive">
+                                            <h:dataTable id="tableJugador" value="#{equipoBeanS.list}" var="e" class="table table-hover">
+                                                <h:column>
+                                                    <f:facet name="header">Nombres de equipos</f:facet>
+                                                    <h:outputText value="#{e.equipoNombre}" />
+                                                </h:column>
+
+                                                <h:column >
+                                                    <f:facet name="header">Categorias</f:facet>
+                                                    <h:outputText value="#{e.categorias.categoria}" />
+                                                </h:column>
+                                                
+                                                <h:column>
+                                                    <h:commandButton value="Modificar" type="submit" action="#{equipoBeanS.modificar(e)}" class="btn btn-primary"/>
+                                                    <h:commandButton value="Eliminar" type="submit" action="#{equipoBeanS.eliminar(e)}" class="btn btn-danger" />
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

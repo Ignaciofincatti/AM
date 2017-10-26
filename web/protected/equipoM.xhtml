@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:body>
+
+        <ui:composition template="./../resources/Template.xhtml">
+
+            <ui:define name="content">
+                <script type="text/javascript">
+                    function validar(e) {
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        if (tecla==8) return true;
+                        patron =/[A-Za-z\s]/;
+                        te = String.fromCharCode(tecla);
+                        return patron.test(te);
+                    }
+                
+                    function validarNum(e){
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        //Tecla de retroceso para borrar, siempre la permite
+                        if (tecla==8){
+                            return true;
+                        }
+                        // Patron de entrada, en este caso solo acepta numeros
+                        patron =/[0-9]/;
+                        tecla_final = String.fromCharCode(tecla);
+                        
+                        
+                        return patron.test(tecla_final);
+                    }
+                    
+                </script>
+                
+                
+                <br></br>
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Modificar Equipo
+                        </div>
+                        <div class="panel-body">
+                            <h:form role="form">
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="name" value="Nombre"/>
+                                            <h:inputText value="#{equipoBeanS.equipoM.equipoNombre}" id="name" required="true" label="Nombre" maxlength="8" class="form-control" />
+
+                                            <h:outputLabel for="catActual" value="Categoria actual"/>
+                                            <h:outputLabel value="#{equipoBeanS.equipoM.categorias.categoria}" id="catActual" class="form-control" />
+
+                                            
+                                            <h:outputLabel for="cat" value="Categoria Nueva"/>
+                                            <h:selectOneMenu id="cat" value="#{equipoBeanS.cate.idCategorias}"  class="form-control" required="true" label="Categoria" >
+                                                <f:selectItem itemLabel="--Seleccione categoria--" itemValue=""/>
+                                                <f:selectItems value="#{equipoBeanS.listCat}"/>
+                                            </h:selectOneMenu>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Escudo del equipo</label>
+                                            <input type="file"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h:commandButton value="Continuar para modificar" type="submit" action="#{equipoBeanS.update()}" class="btn btn-primary" />
+                                        <h:commandButton value="Cancelar" type="submit" action="equipoS.xhtml" class="btn btn-danger" />
+                                        <h:messages id="msgs"/>
+                                        
+                                    </div>
+
+
+                                </div>
+
+                                
+
+
+                            </h:form>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

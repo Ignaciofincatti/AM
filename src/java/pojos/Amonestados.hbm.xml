@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2017 10:10:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Amonestados" table="amonestados" catalog="ligaam" optimistic-lock="version">
+        <id name="idAmonestados" type="java.lang.Integer">
+            <column name="idAmonestados" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="jugadores" class="pojos.Jugadores" fetch="select">
+            <column name="dniJugador" />
+        </many-to-one>
+        <many-to-one name="partidos" class="pojos.Partidos" fetch="select">
+            <column name="idPartido" />
+        </many-to-one>
+        <property name="amarillas" type="java.lang.Integer">
+            <column name="Amarillas" />
+        </property>
+        <property name="rojas" type="java.lang.Integer">
+            <column name="Rojas" />
+        </property>
+    </class>
+</hibernate-mapping>

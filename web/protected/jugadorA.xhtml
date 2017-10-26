@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+    <h:body>
+
+        <ui:composition template="./../resources/Template.xhtml">
+
+            <ui:define name="content">
+                <script type="text/javascript">
+                    function validar(e) {
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        if (tecla==8) return true;
+                        patron =/[A-Za-z\s]/;
+                        te = String.fromCharCode(tecla);
+                        return patron.test(te);
+                    }
+                
+                    function validarNum(e){
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        //Tecla de retroceso para borrar, siempre la permite
+                        if (tecla==8){
+                            return true;
+                        }
+                        // Patron de entrada, en este caso solo acepta numeros
+                        patron =/[0-9]/;
+                        tecla_final = String.fromCharCode(tecla);
+                        
+                        
+                        return patron.test(tecla_final);
+                    }
+                    
+                </script>
+                
+                
+                <br></br>
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Carga de Jugadores
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <h:form role="form">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="Dni" value="Dni"/>
+                                            <h:inputText value="#{jugadorBeanS.jugadorA.jugadorDni}" id="Dni" required="true" label="Dni" onkeypress="return validarNum(event)" maxlength="8" class="form-control">
+                                                <f:validateLength minimum="8" maximum="8"/>
+                                            </h:inputText>
+                                            
+                                            <h:outputLabel for="ape" value="Apellido"/>
+                                            <h:inputText value="#{jugadorBeanS.jugadorA.jugadorApellido}" required="true" id="ape" label="Apellido" class="form-control" onkeypress="return validar(event)"/>
+                                            
+                                            <h:outputLabel for="name" value="Nombre"/>
+                                            <h:inputText value="#{jugadorBeanS.jugadorA.jugadorNombre}" required="true" id="name" label="Nombre" class="form-control" />
+                                            
+                                            <h:outputLabel for="Fnacimiento" value="Fecha de Nacimiento"/>
+                                            <input type="date" id="Fnacimiento" step="1" value="0000-00-00"  class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Foto carnet</label>
+                                            <input type="file"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h:commandButton action="#{jugadorBeanS.alta()}" class="btn btn-primary" id="altaButton" value="Cargar" />
+                                        <button type="reset" class="btn btn-primary">Borrar</button>
+                                        <h:messages id="msgs"/>
+                                    </div>
+                                    
+                                </h:form>
+                               
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:body>
+
+        <ui:composition template="./../resources/Template.xhtml">
+
+            <ui:define name="content">
+                <script type="text/javascript">
+                    function validar(e) {
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        if (tecla==8) return true;
+                        patron =/[A-Za-z\s]/;
+                        te = String.fromCharCode(tecla);
+                        return patron.test(te);
+                    }
+                
+                    function validarNum(e){
+                        tecla = (document.all) ? e.keyCode : e.which;
+                        //Tecla de retroceso para borrar, siempre la permite
+                        if (tecla==8){
+                            return true;
+                        }
+                        // Patron de entrada, en este caso solo acepta numeros
+                        patron =/[0-9]/;
+                        tecla_final = String.fromCharCode(tecla);
+                        
+                        
+                        return patron.test(tecla_final);
+                    }
+                    
+                </script>
+                
+                
+                <br></br>
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Buscar Jugador
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <h:form role="form">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="Dni" value="Dni o Número de socio"/>
+                                            <h:inputText value="#{jugadorBeanS.jconsulta.jugadorDni}" id="Dni" required="true" label="Dni" onkeypress="return validarNum(event)" maxlength="8" class="form-control">
+                                                <f:validateLength minimum="8" maximum="8"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                   <div class="col-lg-12">
+                                       <h:commandButton action="#{jugadorBeanS.buscar()}" class="btn btn-primary" id="serchBtn" value="Buscar" />
+                                       <h:messages id="msgs"/>
+                                    </div>
+                                    
+                                </h:form>
+                                
+                                
+                            </div>
+                            
+                            <div class="row">
+                                <br>
+                                </br>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-lg-12" >
+                                    
+                                    <!--para poder manejar el render agrego la etiqueta h:output-->
+                                    <h:form rendered="#{jugadorBeanS.render}">
+                                    <div class="panel panel-default" >
+                                        <div class="panel-heading">
+                                            
+                                            Datos del Jugador
+                                        
+                                            
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body " >
+                                            <div class="table-responsive">
+                                                <h:dataTable id="tableJugador" value="#{jugadorBeanS.list}" var="j" class="table table-hover">
+                                                    <h:column>
+                                                        <f:facet name="header">Dni</f:facet>
+                                                        <h:outputText value="#{j.jugadorDni}" class="form-control"/>
+                                                    </h:column>
+
+                                                    <h:column >
+                                                        <f:facet name="header">Socio Num</f:facet>
+                                                        <h:outputText value="#{j.jugadorNumSocio}" class="form-control"/>
+                                                    </h:column>
+
+                                                    <h:column>
+                                                        <f:facet name="header">Apellido</f:facet>
+                                                        <h:outputText value="#{j.jugadorApellido}" class="form-control"/>
+                                                    </h:column>
+
+                                                    <h:column>
+                                                        <f:facet name="header">Nombre</f:facet>
+                                                        <h:outputText value="#{j.jugadorNombre}" class="form-control"/>
+                                                    </h:column>
+
+                                                    <h:column >
+                                                        <f:facet name="header">Fecha de nacimiento</f:facet>
+                                                        <h:outputText value="" >
+                                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                        </h:outputText>
+                                                    </h:column>
+                                                    <h:column>
+                                                        
+                                                    </h:column>
+                                                </h:dataTable>
+                                                
+                                                
+
+                                            </div>
+                                            <h:commandButton value="Modificar" type="submit" action="#{jugadorBeanS.modificar()}" class="btn btn-primary"/>
+                                            <h:commandButton value="Eliminar" type="submit" action="#{jugadorBeanS.eliminar()}" class="btn btn-danger"/>
+                                        </div>
+                                       
+                                    </div>
+                                     </h:form>
+                                    
+                                </div>
+                                
+
+                            </div>
+                            
+                            
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+               
+            </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
