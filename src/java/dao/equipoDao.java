@@ -19,14 +19,14 @@ import pojos.Equipos;
  * @author ignacio
  */
 public class equipoDao {
-    
+    Session session = HibernateUtil.getSessionFactory().openSession();
     
     
     public List<Equipos> verExiste(Equipos eq){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        
         List<Equipos> list=null;
          try {
-            String Hql = "From Equipos WHERE equipoNombre LIKE '"+eq.getEquipoNombre()+"%'";
+            String Hql = "From Equipos WHERE equipoNombre LIKE '"+eq.getEquipoNombre()+"%' and equipoestado=1";
             session.beginTransaction().setTimeout(1);
             Query q = session.createQuery(Hql);
             list=q.list();
@@ -39,8 +39,25 @@ public class equipoDao {
         return list;
     }
     
+    public List<Equipos> equiposBaja(Equipos eq){
+        
+        List<Equipos> list=null;
+         try {
+            String Hql = "From Equipos WHERE equipoNombre LIKE '"+eq.getEquipoNombre()+"%' and equipoestado=0";
+            session.beginTransaction().setTimeout(1);
+            Query q = session.createQuery(Hql);
+            list=q.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+    
+    
+    
     public List<Categorias> categorias(){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+       
         List<Categorias> list=null;
          try {
             String Hql = "From Categorias";
@@ -50,6 +67,22 @@ public class equipoDao {
             throw e;
         }
         return list;
+    }
+    public int saveUpdate(Object ob ){
+        int x=0;
+        try {
+            
+            session.beginTransaction();
+            session.saveOrUpdate(ob);
+            session.getTransaction().commit();
+            x=1;
+        } catch (RuntimeException e) {
+            session.beginTransaction().rollback();
+            
+            throw e;
+            
+        }
+        return x;
     }
     
 

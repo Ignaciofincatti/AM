@@ -43,7 +43,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Carga de Equipos
+                            Buscar equipos dados de baja
                         </div>
                         <div class="panel-body">
                             <h:form role="form">
@@ -52,27 +52,12 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <h:outputLabel for="name" value="Nombre"/>
-                                            <h:inputText value="#{equipoBeanS.equipoA.equipoNombre}" id="name" required="true" label="Nombre" maxlength="8" class="form-control" />
-
-                                            <h:outputLabel for="cat" value="Categoria"/>
-                                            <h:selectOneMenu id="cat" value="#{equipoBeanS.cate.idCategorias}"  class="form-control" required="true" label="Categoria" >
-                                                <f:selectItem itemLabel="--Seleccione categoria--" itemValue=""/>
-                                                <f:selectItems value="#{equipoBeanS.listItem}"/>
-                                            </h:selectOneMenu>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Escudo del equipo</label>
-                                            <input type="file"/>
+                                            <h:inputText value="#{equipoBeanS.equipoA.equipoNombre}" id="name" required="true" label="Nombre" maxlength="8" class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <h:commandButton action="#{equipoBeanS.buscar()}" class="btn btn-primary" id="altaButton" value="Cargar" />
+                                        <h:commandButton action="#{equipoBeanS.equiposBajas()}" class="btn btn-primary" id="altaButton" value="Buscar" />
                                         <h:messages id="msgs"/>
-                                        <h:commandButton value="Continuar para registrar" type="submit" action="#{equipoBeanS.alta()}" class="btn btn-primary" rendered="#{equipoBeanS.renderButton}"/>
-                                        <h:commandButton value="Cancelar" type="submit" action="#{equipoBeanS.cancel()}" class="btn btn-danger" rendered="#{equipoBeanS.renderButton}"/>
                                     </div>
 
 
@@ -95,17 +80,14 @@
                                                     <f:facet name="header">Categorias</f:facet>
                                                     <h:outputText value="#{e.categorias.categoria}" />
                                                 </h:column>
-
+                                                
+                                                <h:column>
+                                                    <h:commandButton value="Habilitar" type="submit" action="#{equipoBeanS.altaExistente(e)}" class="btn btn-primary"/>
+                                                </h:column>
                                             </h:dataTable>
                                         </div>
-                                        <h:commandButton value="Continuar para registrar" type="submit" action="#{equipoBeanS.alta()}" class="btn btn-primary"/>
-                                        <h:commandButton value="Cancelar" type="submit" action="#{equipoBeanS.cancel()}" class="btn btn-danger" />
-                                       
                                     </div>
-
                                 </div>
-
-
                             </h:form>
                         </div>
                         

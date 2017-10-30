@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package beans;
 
 import dao.equipoDao;
@@ -26,10 +22,9 @@ import pojos.Categorias;
 public class equipoBeanS implements Serializable {
     private Equipos equipoA;
     private Equipos equipoM;
-    
     private SaveUpdateDao dao;
     private equipoDao Edao;
-    private List<SelectItem> listCat;
+    private List<SelectItem> listItem;
     private Categorias cate;
     private List<Equipos>list;
     private boolean renderList;
@@ -41,7 +36,6 @@ public class equipoBeanS implements Serializable {
     public equipoBeanS() {
         this.equipoA=new Equipos();
         this.equipoM=new Equipos();
-        
         this.dao=new SaveUpdateDao();
         this.Edao=new equipoDao();
         this.cate=new Categorias();
@@ -86,7 +80,6 @@ public class equipoBeanS implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msj);
             this.setRenderButton(true);
         }
-        
     }
     
     public void cancel(){
@@ -97,7 +90,7 @@ public class equipoBeanS implements Serializable {
         this.setRenderList(false);
     }
     
-    public String modificar(Equipos e)throws Exception{
+    public String modificar(Equipos e){
         this.equipoM=e;
         this.equipoA.setEquipoNombre("");
         this.list=null;
@@ -106,25 +99,64 @@ public class equipoBeanS implements Serializable {
         return "equipoM.xhtml";
     }
     
-    public void update(){
+    public String update(){
+        String url="";
         this.equipoM.setCategorias(cate);
-        if(dao.saveUpdate(equipoM)==1){
-            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "exito: ", "");
+        if(Edao.saveUpdate(equipoM)==1){
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modifico el Equipo: "+equipoM.getEquipoNombre()+"", "");
             FacesContext.getCurrentInstance().addMessage(null, msj);
-            
+            url="equipoS.xhtml";
+        }else{
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo modificar el Equipo: "+equipoM.getEquipoNombre()+"", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="equipoM.xhtml";
         }
+        return url;
     }
     
    
     
     public String eliminar(Equipos e){
+        String url="";
         this.equipoM=e;
+        this.equipoM.setEquipoestado(0);
         this.equipoA.setEquipoNombre("");
         this.list=null;
+        if(this.Edao.saveUpdate(equipoM)==1){
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se elimino el Equipo: "+equipoM.getEquipoNombre()+"", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="equipoS.xhtml";
+        }else{
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo eliminar el Equipo: "+equipoM.getEquipoNombre()+"", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="equipoM.xhtml";
+        }
         this.setRenderList(false);
-        return "equipoM.xhtml";
+        return url;
     }
      
+    public void equiposBajas(){
+        this.list=Edao.equiposBaja(equipoA);
+        this.setRenderList(true);
+    }
+    
+    public String altaExistente(Equipos e){
+        String url="";
+        e.setEquipoestado(1);
+        if(Edao.saveUpdate(e)==1){
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se habilito el Equipo: "+e.getEquipoNombre()+"", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="equipoS.xhtml";
+            
+        }else{
+             FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se pudo habilitar el Equipo: "+e.getEquipoNombre()+"", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="equipoB.xhtml";
+            
+        }
+        this.setRenderList(false);
+        return url;
+    }
 
     public Equipos getEquipoA() {
         return equipoA;
@@ -152,24 +184,24 @@ public class equipoBeanS implements Serializable {
         this.cate = cate;
     }
 
-   
-    
-
-    public List<SelectItem> getListCat() {
-        this.listCat=new ArrayList<SelectItem>();
-        List<Categorias>List=Edao.categorias();
-        this.listCat.clear();
-        for(Categorias categ: List){
-            SelectItem cateItem=new SelectItem(categ.getIdCategorias(),categ.getCategoria().toString());
-            listCat.add(cateItem);
+    public List<SelectItem> getListItem() {
+        this.listItem=new ArrayList<>();
+        List<Categorias> c=Edao.categorias();
+        listItem.clear();
+        for(Categorias cat: c){
+            String label=String.valueOf(cat.getCategoria());
+            if(!label.equals("null")){
+                SelectItem i=new SelectItem(cat.getIdCategorias(),label);
+                listItem.add(i);
+            }
         }
-        return listCat;
+        return listItem;
     }
 
-    public void setListCat(List<SelectItem> listCat) {
-        this.listCat = listCat;
+    public void setListItem(List<SelectItem> listItem) {
+        this.listItem = listItem;
     }
-
+    
     public List<Equipos> getList() {
         return list;
     }

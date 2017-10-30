@@ -79,10 +79,10 @@ public class JugadorBeanS implements Serializable{
         
     }
     
-    public String modificar(){
-        this.jugadorM=this.list.get(0);
+    public String modificar(Jugadores j){
+        this.jugadorM=j;
         this.jconsulta.setJugadorDni("");
-        this.list=null;
+        
         this.setRender(false);
         return "jugadorM.xhtml";
     }
@@ -101,25 +101,45 @@ public class JugadorBeanS implements Serializable{
        return url;
     }
     
-//    public String eliminar(){
-//        String url="";
-//        this.jugadorM=this.list.get(0);
-//        this.jconsulta.setJugadorDni("");
-//        this.list=null;
-//        this.setRender(false);
-//        this.jugadorM.setEstado(0);
-//        if(dao.saveUpdate(jugadorM)==1){
-//            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "El jugador "+this.jugadorM.getJugadorApellido()+" se elimino", "");
-//            FacesContext.getCurrentInstance().addMessage(null, msj);
-//            url="jugadorS.xhtml";
-//        }else{
-//            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El jugador "+this.jugadorM.getJugadorApellido()+" no se pudo eliminar", "");
-//            FacesContext.getCurrentInstance().addMessage(null, msj);
-//            url="jugadorM.xhtml";
-//        }
-//        
-//        return url;
-//    }
+    public void jugadoresBajas(){
+        this.list=Jdao.jugBaja(jconsulta);
+        this.setRender(true);
+    }
+    
+    public String altaExistente(Jugadores j){
+        String url="";
+        j.setJugadoresEstado(1);
+        if(Jdao.saveUpdate(j)==1){
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "El jugador "+j.getJugadorApellido()+" se habilito", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="index.xhtml";
+        }else{
+             FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El jugador "+j.getJugadorApellido()+" no se pudo habilitar", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="jugadorB.xhtml";
+        }
+        return url;
+    }
+    
+    
+    
+    public String eliminar(Jugadores j){
+        String url="";
+        this.jconsulta.setJugadorDni("");
+        this.setRender(false);
+        j.setJugadoresEstado(0);
+        if(Jdao.saveUpdate(j)==1){
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_INFO, "El jugador "+j.getJugadorApellido()+" se elimino", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="index.xhtml";
+        }else{
+            FacesMessage msj = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El jugador "+j.getJugadorApellido()+" no se pudo eliminar", "");
+            FacesContext.getCurrentInstance().addMessage(null, msj);
+            url="jugadorS.xhtml";
+        }
+        
+        return url;
+    }
     
     
     
